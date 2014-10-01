@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hello ContextHub</string>
+    <string name="title_activity_main">Hello ContextHub</string>
+    <string name="error">Error</string>
+</resources>
