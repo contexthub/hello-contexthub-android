@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
 
-import com.chaione.contexthub.sdk.ContextEvent;
-import com.chaione.contexthub.sdk.ContextEventListener;
+import com.chaione.contexthub.sdk.SensorPipelineEvent;
+import com.chaione.contexthub.sdk.SensorPipelineListener;
 import com.chaione.contexthub.sdk.ContextHub;
 import com.chaione.contexthub.sdk.GeofenceProxy;
 import com.chaione.contexthub.sdk.callbacks.Callback;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by andy on 9/30/14.
  */
-public class GeofencesMapFragment extends SupportMapFragment implements ContextEventListener, Callback<List<Geofence>>, GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener {
+public class GeofencesMapFragment extends SupportMapFragment implements SensorPipelineListener, Callback<List<Geofence>>, GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener {
 
     private static final int GEOFENCE_RADIUS = 500;
     private static final int ZOOM_LEVEL = 13;
@@ -82,17 +82,17 @@ public class GeofencesMapFragment extends SupportMapFragment implements ContextE
     @Override
     public void onResume() {
         super.onResume();
-        ContextHub.getInstance().addContextEventListener(this);
+        ContextHub.getInstance().addSensorPipelineListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ContextHub.getInstance().removeContextEventListener(this);
+        ContextHub.getInstance().removeSensorPipelineListener(this);
     }
 
     @Override
-    public void onContextEvent(final ContextEvent event) {
+    public void onEventReceived(final SensorPipelineEvent event) {
         if(event.getName().equals("location_changed")) {
             handleLocationChange(event);
         }
@@ -108,11 +108,26 @@ public class GeofencesMapFragment extends SupportMapFragment implements ContextE
         });
     }
 
+    @Override
+    public boolean shouldPostEvent(SensorPipelineEvent event) {
+        return true;
+    }
+
+    @Override
+    public void onBeforeEventPosted(SensorPipelineEvent event) {
+
+    }
+
+    @Override
+    public void onEventPosted(SensorPipelineEvent event) {
+
+    }
+
     /**
      * Extract the coordinates from the context event and update the current loation pin on the map
-     * @param event the ContextEvent
+     * @param event the sensor pipeline event
      */
-    private void handleLocationChange(ContextEvent event) {
+    private void handleLocationChange(SensorPipelineEvent event) {
         try {
             JSONObject data = event.getEventDetails().getJSONObject("data");
             double latitude = data.getDouble("latitude");
