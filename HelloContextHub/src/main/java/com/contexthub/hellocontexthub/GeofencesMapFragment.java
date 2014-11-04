@@ -35,6 +35,7 @@ public class GeofencesMapFragment extends SupportMapFragment implements SensorPi
 
     private static final int GEOFENCE_RADIUS = 500;
     private static final int ZOOM_LEVEL = 13;
+    private static final LatLng LOCATION_CHAIONE_WOODWAY = new LatLng(29.763553,-95.461784);
 
     private MockLocationProvider mockLocationProvider;
     private Marker currentLocation;
@@ -50,6 +51,8 @@ public class GeofencesMapFragment extends SupportMapFragment implements SensorPi
         super.onViewCreated(view, savedInstanceState);
 
         mockLocationProvider = new MockLocationProvider(getActivity());
+        setCurrentLocation(LOCATION_CHAIONE_WOODWAY);
+
         getMap().setOnMapClickListener(this);
         getMap().setOnMapLongClickListener(this);
 
