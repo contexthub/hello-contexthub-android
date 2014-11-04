@@ -2,4 +2,7 @@
 
 <resources>
     <color name="circle_fill">#CC4DABDB</color>
+    <color name="primary">#303236</color>
+    <color name="primaryDark">@android:color/black</color>
+    <color name="accent">#0F82B3</color>
 </resources>
